@@ -1,0 +1,64 @@
+-
+  name: Install Java
+  hosts: "druid-{{remote}}"
+  become: yes
+  roles:
+    - {role: jdk-1.8.0_121, when: "'java' in deploy"}
+
+-
+  name: Install java and zookeeper cluster for druid
+  hosts: "{{ remote }}-zookeeper"
+  become: yes
+  roles:
+    - {role: zookeeper-upgrade, when: "'zookeeper' in deploy"}
+  vars:
+    zookeeper_group: "{{ groups[remote+'-zookeeper'] }}"
+
+# Create postgres databases and users
+
+- hosts: local
+  gather_facts: no
+  vars_files:
+    - "{{inventory_dir}}/secrets.yml"
+  vars:
+    postgresql_databases:
+      - name: druid
+    postgresql_users:
+      - name: druid
+        db: druid
+        password: "{{ dp_vault_druid_postgress_pass }}"
+  tasks:
+    - name: Ensure database is created
+      postgresql_db: name="{{ item.name }}" \
+                login_host="{{ postgres.db_url }}" \
+                port="{{ postgres.db_port }}" \
+                login_user="{{ postgres.db_admin_user }}" \
+                login_password="{{ postgres.db_admin_password }}" \
+                encoding='UTF-8' \
+                state=present
+      with_items: "{{ postgresql_databases }}"
+
+    - name: Ensure user has access to the database
+      postgresql_user: name="{{ item.name }}" \
+                  password="{{ item.password }}" \
+                  no_password_changes=true \
+                  priv=ALL \
+                  state=present \
+                  login_host="{{ postgres.db_url }}" \
+                  port="{{ postgres.db_port }}" \
+                  login_user="{{ postgres.db_admin_user }}" \
+                  login_password="{{ postgres.db_admin_password }}" \
+                  db="{{ item.db }}"
+      with_items: "{{ postgresql_users }}"
+
+-
+  name: Install role druid
+  hosts: "druid-{{remote}}"
+  become: yes
+  roles:
+    - {role: analytics-druid-oci, when: "'{{ remote }}-coordinator' in group_names and 'coordinator' in deploy", druid_role: 'coordinator', service: 'coordinator' }
+    - {role: analytics-druid-oci, when: "'{{ remote }}-overlord' in group_names and 'overlord' in deploy", druid_role: 'overlord', service: 'overlord'}
+    - {role: analytics-druid-oci, when: "'{{ remote }}-broker' in group_names and 'broker' in deploy", druid_role: 'broker', service: 'broker'}
+    - {role: analytics-druid-oci, when: "'{{ remote }}-historical' in group_names and 'historical' in deploy", druid_role: 'historical', service: 'historical'}
+    - {role: analytics-druid-oci, when: "'{{ remote }}-middlemanager' in group_names and 'mm' in deploy", druid_role: 'middlemanager', service: 'middleManager' }
+    - {role: analytics-druid-oci, when: "'{{ remote }}-router' in group_names and 'router' in deploy", druid_role: 'router', service: 'router' }
