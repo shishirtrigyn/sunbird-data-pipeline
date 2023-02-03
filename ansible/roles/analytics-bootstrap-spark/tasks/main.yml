@@ -64,7 +64,7 @@
 
 - name: Install required python packages
   become: yes
-  action: apt pkg={{ item }} state=present update_cache=no
+  action: apt pkg={{ item }} state=present update_cache=yes
   with_items:
     - libffi-dev
     - libssl-dev
@@ -74,7 +74,7 @@
 
 - name: Install libraries for spark bootstrap
   become: yes
-  action: apt pkg={{ item }} state=present update_cache=no
+  action: apt pkg={{ item }} state=present update_cache=yes
   with_items:
     - build-essential
     - git
