@@ -12,6 +12,10 @@
   apt: name=influxdb state=present
   notify: restart influxdb service
 
+- name: Install InfluxDB client packages
+  apt: name=influxdb-client state=present
+  notify: restart influxdb service
+
 - name: Replace InfluxDB cluster configuration
   template:
     dest: "/etc/influxdb/influxdb.conf"
