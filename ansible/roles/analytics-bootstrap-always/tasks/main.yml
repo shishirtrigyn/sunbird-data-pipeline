@@ -19,7 +19,9 @@
 
 #Temporary fix to address the anisble issue where the user home is getting created with root user(https://github.com/ansible/ansible/issues/75352)
 - name: recursively update analytics home directory owner
+  become: yes
   file:
+    become_user: "root"
     path: "{{ analytics_user_home }}"
     state: directory
     recurse: yes
