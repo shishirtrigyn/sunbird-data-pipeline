@@ -17,7 +17,14 @@
     createhome: yes
     group: "{{ analytics_group }}"
 
-
+#Temporary fix to address the anisble issue where the user home is getting created with root user(https://github.com/ansible/ansible/issues/75352)
+- name: recursively update analytics home directory owner
+  file:
+    path: "{{ analytics_user_home }}"
+    state: directory
+    recurse: yes
+    owner: {{ analytics_user }}
+    
 - name: Installing packages
   become: yes
   apt:
