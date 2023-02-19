@@ -23,8 +23,8 @@
     path: "{{ analytics_user_home }}"
     state: directory
     recurse: yes
-    owner: {{ analytics_user }}
-    
+    owner: "{{ analytics_user }}"
+
 - name: Installing packages
   become: yes
   apt:
