@@ -21,7 +21,6 @@
 - name: recursively update analytics home directory owner
   become: yes
   file:
-    become_user: "root"
     path: "{{ analytics_user_home }}"
     state: directory
     recurse: yes
