@@ -1,6 +1,7 @@
 ---
-- name: checking the list of installed services
-  service_facts:
+# Temporary disabled due to issue : https://github.com/ocisunbird/odev-diksha/issues/9
+# - name: checking the list of installed services
+#   service_facts:
 
 - name: stop monit
   service: 
