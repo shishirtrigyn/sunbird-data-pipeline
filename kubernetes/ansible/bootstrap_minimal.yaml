@@ -1,5 +1,6 @@
 ---
-# tasks file for bootstrap-k8s
+# tasks file for bootstrap-k8s 
+#    for VDN DP/KP - 
 
 - hosts: local
   gather_facts: false
@@ -22,23 +23,26 @@
       copy:
         content: "{{ helm_vars|to_yaml }}"
         dest: "{{ helm_file.path }}"
+# This is VDN and ONLY 1 additional namespace is required        
     - name: Creating namespace
       shell: "kubectl create namespace {{ item }} "
       with_items:
-        - "flink-{{ env }}"
+#        - "flink-{{ env }}"
         - "flink-kp-{{ env }}"
-        - secor
-        - monitoring
-        - logging
+#        - secor
+#        - monitoring
+#        - logging
       ignore_errors: yes
 
+# only new docker secret is required for the new namespace for VDN
     - name: Creating docker secrets
       shell: "kubectl create secret docker-registry {{ imagepullsecrets }} --namespace {{ item }} --docker-server {{ core_vault_docker_registry_url }} --docker-username {{ core_vault_docker_registry_user }} --docker-password {{ core_vault_docker_registry_password }} --dry-run=client -o=yaml | kubectl apply -f -"
       with_items:
-        - "flink-{{ env }}"
+#        - "flink-{{ env }}"
         - "flink-kp-{{ env }}"
-        - secor
+#        - secor
       when: imagepullsecrets|length > 0
 
-    - name: Installing reloader for configmaps reload
-      shell: helm upgrade --install --atomic reloader ../helm_charts/bootstrap/reloader --namespace secor -f "{{ helm_file.path }}"
+# there should be reloader inthe existing secor namepace and no need to deploy again
+#    - name: Installing reloader for configmaps reload
+#      shell: helm upgrade --install --atomic reloader ../helm_charts/bootstrap/reloader --namespace secor -f "{{ helm_file.path }}"
