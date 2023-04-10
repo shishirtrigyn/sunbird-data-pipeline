@@ -23,12 +23,12 @@
       copy:
         content: "{{ helm_vars|to_yaml }}"
         dest: "{{ helm_file.path }}"
-# This is VDN and ONLY 1 additional namespace is required        
+# This is VDN and ONLY 1 additional namespace is required and the namespace is stored in flink_namespace       
     - name: Creating namespace
       shell: "kubectl create namespace {{ item }} "
       with_items:
 #        - "flink-{{ env }}"
-        - "flink-kp-{{ env }}"
+        - "{{ flink_namespace }}"
 #        - secor
 #        - monitoring
 #        - logging
@@ -39,7 +39,7 @@
       shell: "kubectl create secret docker-registry {{ imagepullsecrets }} --namespace {{ item }} --docker-server {{ core_vault_docker_registry_url }} --docker-username {{ core_vault_docker_registry_user }} --docker-password {{ core_vault_docker_registry_password }} --dry-run=client -o=yaml | kubectl apply -f -"
       with_items:
 #        - "flink-{{ env }}"
-        - "flink-kp-{{ env }}"
+        - "{{ flink_namespace }}"
 #        - secor
       when: imagepullsecrets|length > 0
 
