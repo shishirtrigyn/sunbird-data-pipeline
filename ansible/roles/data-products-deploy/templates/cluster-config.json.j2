@@ -30,13 +30,13 @@
 {% elif (dp_object_store_type == "oci") %}
 {
     "jars": [
-        "s3n://{{ bucket }}/models-{{ model_version }}/{{ analytics_core_artifact }}",
-        "s3n://{{ bucket }}/models-{{ model_version }}/{{ scruid_artifact }}",
-        "s3n://{{ bucket }}/models-{{ model_version }}/{{ analytics_ed_dataporducts_jar_artifact }}"
+        "s3a://{{ bucket }}/models-{{ model_version }}/{{ analytics_core_artifact }}",
+        "s3a://{{ bucket }}/models-{{ model_version }}/{{ scruid_artifact }}",
+        "s3a://{{ bucket }}/models-{{ model_version }}/{{ analytics_ed_dataporducts_jar_artifact }}"
     ],
-    "file": "s3n://{{ bucket }}/models-{{ model_version }}/{{ analytics_batch_module_artifact }}",
+    "file": "s3a://{{ bucket }}/models-{{ model_version }}/{{ analytics_batch_module_artifact }}",
     "files": [
-        "s3n://{{ bucket }}/models-{{ model_version }}/application.conf"
+        "s3a://{{ bucket }}/models-{{ model_version }}/application.conf"
     ],
     "className": "org.ekstep.analytics.job.JobExecutor",
     "executorCores": {{ spark_cluster.executor_core }},
