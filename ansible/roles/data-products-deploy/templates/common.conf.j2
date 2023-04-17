@@ -19,6 +19,8 @@ cloud_storage_type="azure"
 {% elif (dp_object_store_type == "cephs3" or dp_object_store_type == "s3" or dp_object_store_type == "oci") %}
 {% if cloud_service_provider == "oci" %}
 cloud_storage_type="oci"
+oci.namespace="{{oci_namespace}}"
+oci_object_storage_endpoint="{{oci_object_storage_endpoint}}"
 {% else %}
 cloud_storage_type="s3"
 {% endif %}
