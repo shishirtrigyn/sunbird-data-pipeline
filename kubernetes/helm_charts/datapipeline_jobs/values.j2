@@ -1,4 +1,4 @@
-namespace: {{ flink_namespace }}
+de-normalization-secondarynamespace: {{ flink_namespace }}
 imagepullsecrets: {{ imagepullsecrets }}
 dockerhub: {{ dockerhub }}
 repository: {{flink_repository|default('sunbird-datapipeline')}}
@@ -318,8 +318,8 @@ de-normalization-secondary:
       user.host = {{ redis_meta_user_host }}
       dialcode.host = {{ redis_meta_dialcode_host }}
       content.port = {{ redis_meta_content_port }}
-      device.port = {{ redis_meta_device_port }}
-      user.port = {{ redis_meta_user_port }}
+      device.port = {{ redis_meta_content_port }}
+      user.port = {{ redis_meta_content_port }}
      # dialcode.port = {{ redis_meta_dialcode_port }}
        dialcode.port = 6379
     }
