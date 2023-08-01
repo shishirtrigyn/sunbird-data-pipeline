@@ -117,12 +117,12 @@ base_config: |
     }
     redisdb.connection.timeout = {{ redis_timeout }}
     redis {
-      host = {{ metadata2_redis_host }}
+      host = {{ redis_host }}
       port = 6379
     }
     redis-meta {
 {% if metadata2_redis_host is defined %}
-      host = {{ metadata2_redis_host }}
+      host = {{ redis_host }}
 {% else %}
       host = {{ redis_host }}
 {% endif %}
