@@ -45,7 +45,8 @@ job_classname: {{ job_classname }}
 
 log4j_console_properties: |
   # This affects logging for both user code and Flink
-  rootLogger.level = {{ flink_jobs_console_log_level | default(INFO) }}
+  # rootLogger.level = {{ flink_jobs_console_log_level | default(INFO) }}
+  rootLogger.level = TRACE
   rootLogger.appenderRef.console.ref = ConsoleAppender
 
   # Uncomment this if you want to _only_ change Flink's logging
