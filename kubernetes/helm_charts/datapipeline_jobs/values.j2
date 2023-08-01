@@ -320,7 +320,8 @@ de-normalization-secondary:
       content.port = {{ redis_meta_content_port }}
       device.port = {{ redis_meta_device_port }}
       user.port = {{ redis_meta_user_port }}
-      dialcode.port = {{ redis_meta_dialcode_port }}
+     # dialcode.port = {{ redis_meta_dialcode_port }}
+       dialcode.port = 6379
     }
     # config version
     user_denorm_version = v2
