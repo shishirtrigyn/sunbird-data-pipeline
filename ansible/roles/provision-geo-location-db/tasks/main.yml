@@ -60,7 +60,7 @@
   apt:
     name: postgresql-client
     state: present
-    update_cache: yes
+    update_cache: no
 
 - name: Copy the templates.
   become: yes
