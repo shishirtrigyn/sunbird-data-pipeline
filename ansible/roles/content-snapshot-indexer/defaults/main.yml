@@ -49,7 +49,7 @@ elastic_search:
 cloud_storage:
   container: "odev-dev-diksha-telemetry" # Container is different in all env so override this.
   #object_key: "druid-content-snapshot/snapshot.txt"
-  object_key: "vdn_content_model_snapshot/snapshot.txt"
+  object_key: "vdn_content_model_snapshot/vdn-snapshot.txt"
   provider: "oci"
   account_name: "{{sunbird_public_storage_account_name}}"
   account_key: "{{sunbird_public_storage_account_key}}"
@@ -70,8 +70,8 @@ cassandra:
 
 druid:
   coordinator_host: "{{ groups['rollup-coordinator'][0] | default(groups['raw-coordinator'][0]) }}" 
-  data_source: "content-model-snapshot"
-  ingestion_spec_path: "{{ content_snapshot_jar_path }}/etl-jobs-1.0/druid_models/content_index_batch.json"
+  data_source: "vdn_content_model_snapshot"
+  ingestion_spec_path: "{{ content_snapshot_jar_path }}/etl-jobs-1.0/druid_models/vdn_content_index_batch.json"
 
 job_config:
   es_cloud_uploader_path: "{{ content_snapshot_path }}/config/ESCloudUploader.conf"
