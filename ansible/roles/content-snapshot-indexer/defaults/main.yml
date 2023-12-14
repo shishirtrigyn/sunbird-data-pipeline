@@ -36,7 +36,7 @@ elastic_search:
   host: "{{ lp_composite_search_host }}" # compositesearch index
   port: "9200"
   content:
-    index: "compositesearch"
+    index: "compositesearch_v2"
     query: '"{\"query\":{\"bool\":{\"must\":[{\"match\":{\"status\":{\"query\":\"Live\"}}},{\"match\":{\"objectType\":{\"query\":\"Content\"}}}]}}}"'
   dialcode:
     index: "dialcode"
